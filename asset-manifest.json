@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/crypto-dashoard/static/css/main.40cd3953.css",
+    "main.js": "/crypto-dashoard/static/js/main.ab5a730f.js",
+    "index.html": "/crypto-dashoard/index.html",
+    "main.40cd3953.css.map": "/crypto-dashoard/static/css/main.40cd3953.css.map",
+    "main.ab5a730f.js.map": "/crypto-dashoard/static/js/main.ab5a730f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.40cd3953.css",
+    "static/js/main.ab5a730f.js"
+  ]
+}
