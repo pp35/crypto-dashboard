@@ -1,6 +1,6 @@
 {
-  "name": "crypto-dashoard",
-  "homepage": "https://pp35.github.io/crypto-dashoard",
+  "name": "crypto-dashboard",
+  "homepage": "https://pp35.github.io/crypto-dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
