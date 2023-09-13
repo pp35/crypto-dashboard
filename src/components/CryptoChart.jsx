@@ -126,12 +126,14 @@ const CryptoChart = () => {
             {timeIntervals.map((interval) => (
               // Render buttons for selecting time intervals
               <button
-                key={interval.value}
-                onClick={() => setTimeInterval(interval.value)}
-                className={`ring-1 ring-gray-200 bg-gray-100  px-4 py-1 rounded-md  mx-3 mr-2 pb-1.5 `}
-              >
-                {interval.label}
-              </button>
+              key={interval.value}
+              onClick={() => setTimeInterval(interval.value)}
+              className={`bg-slate-300 px-4 py-2 mx-2  rounded-md ${
+                timeInterval === interval.value ? "bg-blue-300" : "text-gray-700 border-2"
+              }`}
+            >
+              {interval.label}
+            </button>
             ))}
           </div>
           <div className="sm:col-span-2 flex justify-center  right-24 gap-2 my-4  align-sub">
