@@ -27,7 +27,7 @@ export const fetchCryptoData = (currency) => {
         params: {
           vs_currency: currency,
           order: 'market_cap_desc',
-          per_page: 10,
+          per_page: 100,
           page: 1,
         },
       })
