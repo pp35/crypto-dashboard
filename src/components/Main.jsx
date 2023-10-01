@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React,{useState} from "react";
 
 // Importing necessary components
 import Searchbar from "./Search";
@@ -6,11 +6,14 @@ import CryptoChart from "./CryptoChart";
 import CoinsExchange from "./CoinsExchange";
 import CryptoPieChart from "./CryptoPieChart";
 import SideBar from "./SideBar";
+import CurrencySelector from "./CurrencySelector";
 
 function Main() {
-  // Using React state to manage the selected currency
   const [selectedCurrency, setSelectedCurrency] = useState("usd");
 
+  const handleCurrencyChange = (currency) => {
+    setSelectedCurrency(currency);
+  };
   return (
     <>
       {/* Main container with background and flex layout */}
@@ -21,15 +24,11 @@ function Main() {
               <div className="md:3/4 mx-auto">
                 <div className="flex">
                   {/* Dropdown to select currency */}
-                  <select
-                    value={selectedCurrency}
-                    onChange={(e) => setSelectedCurrency(e.target.value)}
-                    className="h-11 w-20 relative left-6  rounded-md border font-semibold focus:border-black shadow-md"
-                  >
-                    <option value="usd">USD</option>
-                    <option value="inr">INR</option>
-                    <option value="eur">EUR</option>
-                  </select>
+                 
+                  <CurrencySelector
+                    selectedCurrency={selectedCurrency}
+                    setSelectedCurrency={setSelectedCurrency}
+                  />
 
                   {/* Search bar component */}
                   <Searchbar />
@@ -50,7 +49,10 @@ function Main() {
 
             <div>
               {/* Sidebar component */}
-              <SideBar selectedCurrency={selectedCurrency} className="md:mt-4" />
+              <SideBar
+                selectedCurrency={selectedCurrency}
+                handleCurrencyChange={handleCurrencyChange}
+              />
             </div>
           </div>
         </div>

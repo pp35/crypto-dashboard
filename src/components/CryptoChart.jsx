@@ -1,6 +1,6 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchChartData } from '../actions/chartAction';
 import {
   LineChart,
   Line,
@@ -14,107 +14,82 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
+} from 'recharts';
 
 const CryptoChart = () => {
-  // Define state variables for currency, time interval, price data, and chart type
-  const [currency, setCurrency] = useState("bitcoin");
-  const [timeInterval, setTimeInterval] = useState("1d");
-  const [priceData, setPriceData] = useState([]);
-  const [chartType, setChartType] = useState("line");
+  const dispatch = useDispatch();
+  const [currency, setCurrency] = useState('bitcoin');
+  const [timeInterval, setTimeInterval] = useState('1d');
+  const [chartType, setChartType] = useState('line');
+  const timeIntervals = [
+    { value: '1d', label: '1D' },
+    { value: '7d', label: '1W' },
+    { value: '30d', label: '1M' },
+    { value: '180d', label: '6M' },
+    { value: '365d', label: '1Y' },
+  ];
 
-  // Fetch data when currency or time interval changes
+
   useEffect(() => {
     fetchData(currency, timeInterval);
   }, [currency, timeInterval]);
 
-  // Define available time intervals for the user to choose from
-  const timeIntervals = [
-    { value: "1d", label: "1D" },
-    { value: "7d", label: "1W" },
-    { value: "30d", label: "1M" },
-    { value: "180d", label: "6M" },
-    { value: "365d", label: "1Y" },
-  ];
+  
 
-  // Function to fetch cryptocurrency price data from an API
   const fetchData = (selectedCurrency, selectedTimeInterval) => {
-    axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/${selectedCurrency}/market_chart`,
-        {
-          params: {
-            vs_currency: "usd",
-            days: selectedTimeInterval,
-          },
-        }
-      )
-      .then((response) => {
-        // Process API response data and update priceData state
-        const data = response.data.prices.map((entry) => ({
-          date: new Date(entry[0]).toLocaleDateString(),
-          price: entry[1],
-        }));
-        setPriceData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
+    dispatch(fetchChartData(selectedCurrency, selectedTimeInterval));
 
-  // Function to render different types of charts based on chartType state
+    console.log(selectedCurrency,selectedTimeInterval)
+  };
+  
+
+  const chartData = useSelector((state) => state.chartData.chartData);
+
   const renderChart = () => {
-    switch (chartType) {
-      case "line":
+    if (!Array.isArray(chartData) || chartData.length === 0) {
+      return <div>No data available.</div>;
+    }
+console.log(chartData)
+    switch (chartType) { 
+      case 'line':
         return (
-          // Render a Line Chart using recharts components
-          <LineChart data={priceData}>
+          <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="price"
-              stroke="rgb(110, 147, 71)"
-              activeDot={{ r: 8 }}
-            />
+            <Line type="monotone" dataKey="price" stroke="rgb(0,204,0)" activeDot={{ r: 8 }} />
           </LineChart>
         );
 
-      case "bar":
+      case 'bar':
         return (
-          // Render a Bar Chart using recharts components
-          <BarChart data={priceData}>
+          <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="price" fill="rgb(255, 165, 102)" />
+            <Bar dataKey="price" fill="rgb(0,204,0)" />
           </BarChart>
         );
 
-      case "area":
+      case 'area':
         return (
-          // Render an Area Chart using recharts components
-          <AreaChart data={priceData}>
+          <AreaChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Area
-              type="monotone"
-              dataKey="price"
-              fill="rgb(255, 245, 102)"
-            />
+            <Area type="monotone" dataKey="price" fill="rgb(0,204,0)" />
           </AreaChart>
         );
 
       default:
         return null;
+        
     }
   };
 
@@ -122,25 +97,25 @@ const CryptoChart = () => {
     <>
       <div className="border  bg-white shadow-md border-r-1   ml-1   ">
         <div className=" md:flex  sm:cols-2 sm:gap-10 ">
-          <div className="  pt-4 ml-20">
+          <div className="  pt-2 ml-20">
             {timeIntervals.map((interval) => (
               // Render buttons for selecting time intervals
               <button
-              key={interval.value}
-              onClick={() => setTimeInterval(interval.value)}
-              className={`bg-slate-300 px-4 py-2 mx-2  rounded-md ${
-                timeInterval === interval.value ? "bg-blue-300" : "text-gray-700 border-2"
-              }`}
-            >
-              {interval.label}
-            </button>
+                key={interval.value}
+                onClick={() => setTimeInterval(interval.value)}
+                className={`ring-1 ring-blue-200  px-4 py-1 rounded-md  mx-2 my-2 mr-2 pb-1.5${
+                  timeInterval === interval.value ? " border bg-green-400 " : "text-gray-700 bg-gray-200"
+                }`}
+              >
+                {interval.label}
+              </button>
             ))}
           </div>
-          <div className="sm:col-span-2 flex justify-center  right-24 gap-2 my-4  align-sub">
+          <div className="sm:col-span-2 flex justify-center   gap-2 my-4  align-sub">
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none font-semibold"
+              className="ring-1 ring-blue-200 bg-gray-100 rounded focus:outline-none font-semibold"
             >
               {/* Render dropdown for selecting cryptocurrency */}
               <option value="bitcoin">Bitcoin</option>
@@ -150,7 +125,7 @@ const CryptoChart = () => {
             </select>
 
             <select
-              className="ring-1 ring-gray-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
+              className="ring-1 ring-blue-200 bg-gray-100 rounded focus:outline-none px-2 py-2 font-semibold"
               value={chartType}
               onChange={(e) => setChartType(e.target.value)}
             >

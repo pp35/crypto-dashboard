@@ -9,10 +9,10 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const CryptoPieChart = () => {
   return (
     <div className="container shadow-md border rounded-md w-3/3  bg-white h-64 top-2 relative mb-5">
-      <div className="relative top-4 ">
-      <h1 className="text-green-500 font-bold  text-xl">PortFolio</h1>
+      
+      <h1 className="text-green-500 font-bold ml-4 text-2xl">PortFolio</h1>
         
-      </div>
+      
       <div className=""> 
       {/* Pie Chart */}
         <Pie data={{

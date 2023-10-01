@@ -82,7 +82,7 @@ function Searchbar() {
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-40 backdrop-filter backdrop-blur-md ">
           <div className="bg-white p-4 rounded-lg shadow-lg ">
             <button
-              className="absolute top-2 right-5 text-black-500 hover:text-gray-700 focus:outline-none bg-white rounded-md"
+              className="absolute top-5 right-9 text-bold  text-xl hover:bg-gray-400 focus:outline-none h-10  w-20 bg-white rounded"
               onClick={closeCard}
             >
               Close
